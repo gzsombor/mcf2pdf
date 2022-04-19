@@ -58,6 +58,8 @@ public interface McfArea {
 
 	public McfBorder getBorder();
 
+	public McfCorners getCorners();
+
 	public McfPosition getPosition();
 
 }

@@ -45,7 +45,7 @@ public class McfAreaImpl implements McfArea {
 	private McfAreaContent content;
 
 	private McfPosition position;
-	
+
 	private McfBorder border;
 
 	@Override
@@ -129,6 +129,10 @@ public class McfAreaImpl implements McfArea {
 			return this.position.getZPosition();
 		}
 		return zPosition;
+	}
+
+	public void setZposition(int zPosition) {
+		this.zPosition = zPosition;
 	}
 
 	@Override
