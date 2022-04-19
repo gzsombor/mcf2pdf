@@ -77,7 +77,13 @@ public class PageImage implements PageDrawable {
 		File clipartFile = null;
 		Fotoarea fotoArea = null;
 		if (image.getFadingFile() != null) {
-			McfFotoFrame frame = context.getFotoFrame(image.getFadingFile());
+			// TODO change if passpoart get all config
+			McfFotoFrame frame=null;
+			// old version
+			if(image.getPassepartoutDesignElementId() == null)
+				frame = context.getFotoFrame(image.getFadingFile());
+			else
+				frame = context.getFotoFrameViaDesignElementID(image.getPassepartoutDesignElementId());
 			if (frame != null && frame.getFading() != null) {
 				maskFile = frame.getFading();
 			} else {
@@ -159,9 +165,8 @@ public class PageImage implements PageDrawable {
 			g2d.setColor(borderColor);
 			g2d.fillRect(bleft, btop, widthPixel + 2 * borderWidth, heightPixel + 2 * borderWidth);
 		}
-
-		int leftOffset = -image.getLeft();
-		int topOffset = -image.getTop();
+		int leftOffset = -(int)(image.getLeft());
+		int topOffset = -(int)(image.getTop());
 		
 		drawOffsetPixels.x = -imgLeft;
 		drawOffsetPixels.y = -imgTop;

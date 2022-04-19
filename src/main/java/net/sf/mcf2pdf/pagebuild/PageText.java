@@ -14,6 +14,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 import java.util.regex.Matcher;
@@ -107,67 +108,94 @@ public class PageText implements PageDrawable {
 		}
 		FormattedTextParagraph para =null;
 		for(Node el : body.get(0).children()) {
-			if(el instanceof TextNode) continue;
-			Element par = (Element)el;
-			log.debug("el ="+el.toString());
-			log.debug("el.tagname ="+par.tagName());
-			if(par.tagName().equalsIgnoreCase("table"))
-				par  = par.select("p").first();
-			if(par.tagName().equalsIgnoreCase("p")) {
-				para = new FormattedTextParagraph();
-				String paraAlign = par.attr("align");
-				if(paraAlign != null){
-					if ("center".equals(paraAlign))
-						para.setAlignment(Alignment.CENTER);
-					else if ("right".equals(paraAlign))
-						para.setAlignment(Alignment.RIGHT);
-					else if ("justify".equals(paraAlign))
-						para.setAlignment(Alignment.JUSTIFY);
-				}
-				String paraStyle = par.attr("style");
-				para.addText(createFormattedText("", paraStyle));
-				if(par.select("span").size()> 0) {
-					// now para content spans
-					for(Element span:par.select("span")){
-						String spanText = span.text();
-						String spanCss = span.attr("style");
-						para.addText(createFormattedText(spanText, spanCss));
-						if(span.select("br").size()>0){
-							para = para.createEmptyCopy();
-							paraStyle = par.attr("style");
-							para.addText(createFormattedText(" ", paraStyle));
-						}
+			if (el instanceof TextNode) continue;
+			Element par = (Element) el;
+			log.debug("el =" + el.toString());
+			log.debug("el.tagname =" + par.tagName());
+			//if (par.tagName().equalsIgnoreCase("table")) {
+				//Iterator<Element> it = par.children().iterator();
+				Iterator<Element> it = par.select("p").iterator();
+				// checking if there is a p
+			 	if(it.hasNext() == false) {
+					 log.debug("no pars");
+					para = new FormattedTextParagraph();
+					if (par.select("span").size() > 0) {
+						// now para content spans
+						String paraStyle = par.attr("style");
+						for (Element span : par.select("span")) {
+							String spanText = ((TextNode) span.childNodes().get(0)).getWholeText();
+							String spanCss = span.attr("style");
+							para.addText(createFormattedText(spanText, spanCss));
+							if (span.select("br").size() > 0) {
+								para = para.createEmptyCopy();
+								paraStyle = par.attr("style");
+								para.addText(createFormattedText(" ", paraStyle));
+							}
 
+						}
+						log.debug("para =" + para.toString());
+						paras.add(para);
 					}
 				}
-				// no span in para
-				else
-				{
-					String paraText = par.text();
-					if(par.select("br").size() > 0) {
-						para = para.createEmptyCopy();
-						paraStyle = par.attr("style");
-						para.addText(createFormattedText(" ", paraStyle));
+				while(it.hasNext()) {
+					par = it.next();
+					if (par.tagName().equalsIgnoreCase("p")) {
+						para = new FormattedTextParagraph();
+						String paraAlign = par.attr("align");
+						if (paraAlign != null) {
+							if ("center".equals(paraAlign))
+								para.setAlignment(Alignment.CENTER);
+							else if ("right".equals(paraAlign))
+								para.setAlignment(Alignment.RIGHT);
+							else if ("justify".equals(paraAlign))
+								para.setAlignment(Alignment.JUSTIFY);
+						}
+						String paraStyle = par.attr("style");
+						para.addText(createFormattedText("", paraStyle));
+						if (par.select("span").size() > 0) {
+							// now para content spans
+							for (Element span : par.select("span")) {
+								String spanText = ((TextNode) span.childNodes().get(0)).getWholeText();
+								String spanCss = span.attr("style");
+								para.addText(createFormattedText(spanText, spanCss));
+								if (span.select("br").size() > 0) {
+									para = para.createEmptyCopy();
+									paraStyle = par.attr("style");
+									para.addText(createFormattedText(" ", paraStyle));
+								}
 
-					} else
-						para.addText(createFormattedText(paraText, ""));
+							}
+						}
+						// no span in para
+						else {
+							String paraText = par.text();
+							if (par.select("br").size() > 0) {
+								para = para.createEmptyCopy();
+								paraStyle = par.attr("style");
+								para.addText(createFormattedText(" ", paraStyle));
+
+							} else
+								para.addText(createFormattedText(paraText, ""));
+						}
+						log.debug("para =" + para.toString());
+						paras.add(para);
+						continue;
+					}
+					if (par.tagName().equalsIgnoreCase("span")) {
+						// there is no par element cheking or span only
+						// now para content spans
+
+						para = new FormattedTextParagraph();
+						String spanText = par.text();
+						String spanCss = par.attr("style");
+						para.addText(createFormattedText(spanText, spanCss));
+						paras.add(para);
+						log.debug("span =" + para.toString());
+						continue;
+					}
+					//par = it.next();
 				}
-				log.debug("para ="+para.toString());
-				paras.add(para);
-				continue;
-			}
-			if(par.tagName().equalsIgnoreCase("span"))
-			{
-				// there is no par element cheking or span only
-				// now para content spans
-
-				para = new FormattedTextParagraph();
-				String spanText = par.text();
-				String spanCss = par.attr("style");
-				para.addText(createFormattedText(spanText, spanCss));
-				paras.add(para);
-				log.debug("span ="+para.toString());
-			}
+			//}
 
 		}
 
@@ -264,9 +292,10 @@ public class PageText implements PageDrawable {
 				drawPosX += rc.x ;
 			}
 
-			drawPosY += layout.getAscent();
+			drawPosY += layout.getAscent() + para.getMarginTop();
 			layout.draw(graphics, drawPosX, drawPosY);
-			drawPosY += layout.getDescent() + layout.getLeading();
+			// TODO read margines from top bottom paragrapsh
+			drawPosY += layout.getDescent() + layout.getLeading() +para.getMarginBottom();
 		}
 
 		return (int)drawPosY;
@@ -290,6 +319,10 @@ public class PageText implements PageDrawable {
 		float fontSize = BODYSTYLE_fontSize;
 		String fontFamily = BODYSTYLE_fontFamily;
 		Color textColor = BODYSTYLE_textColor;
+		int margintop = 0;
+		int marginleft =0;
+		int marginbottom=0;
+		int marginright=0;
 
 		for (String avp : avPairs) {
 			avp = avp.trim();
@@ -308,7 +341,7 @@ public class PageText implements PageDrawable {
 					if (fontFamily.contains(","))
 						fontFamily = fontFamily.substring(0, fontFamily.indexOf(","));
 				}
-				if ("font-size".equalsIgnoreCase(a) && v.matches("[0-9]+pt"))
+				if ("font-size".equalsIgnoreCase(a) && v.matches("[0-9.]+pt"))
 					fontSize = Float.valueOf(v.substring(0, v.indexOf("pt"))).floatValue();
 				if ("font-weight".equalsIgnoreCase(a))
 					bold = Integer.valueOf(v).intValue() > 400;
@@ -318,6 +351,14 @@ public class PageText implements PageDrawable {
 					textColor = Color.decode(v);
 				if ("font-style".equalsIgnoreCase(a))
 					italic = "italic".equals(v);
+				if ("margin-top".equalsIgnoreCase(a))
+					margintop = Integer.valueOf(v.substring(0, v.indexOf("px"))).intValue();
+				if ("margin-bottom".equalsIgnoreCase(a))
+					marginbottom = Integer.valueOf(v.substring(0, v.indexOf("px"))).intValue();
+				if ("margin-right".equalsIgnoreCase(a))
+					marginright = Integer.valueOf(v.substring(0, v.indexOf("px"))).intValue();
+				if ("margin-left".equalsIgnoreCase(a))
+					marginleft = Integer.valueOf(v.substring(0, v.indexOf("px"))).intValue();
 			}
 			catch (Exception e) {
 				// ignore invalid attributes
@@ -330,7 +371,8 @@ public class PageText implements PageDrawable {
 		text = text.replace("&quot;", "\"");
 		text = text.replace("&lt;", "<");
 		text = text.replace("&gt;", ">");
-		return new FormattedText(text, bold, italic, underline, textColor, fontFamily, fontSize);
+		return new FormattedText(text, bold, italic, underline, textColor, fontFamily, fontSize,
+								margintop,marginright,marginbottom,marginleft);
 	}
 	
 	private void setBodyStyle(String css) {
@@ -354,7 +396,7 @@ public class PageText implements PageDrawable {
 					if (BODYSTYLE_fontFamily.contains(","))
 						BODYSTYLE_fontFamily = BODYSTYLE_fontFamily.substring(0, BODYSTYLE_fontFamily.indexOf(","));
 				}
-				if ("font-size".equalsIgnoreCase(a) && v.matches("[0-9]+pt"))
+				if ("font-size".equalsIgnoreCase(a) && v.matches("[0-9.]+pt"))
 					BODYSTYLE_fontSize = Float.valueOf(v.substring(0, v.indexOf("pt"))).floatValue();
 				if ("font-weight".equalsIgnoreCase(a))
 					BODYSTYLE_bold = Integer.valueOf(v).intValue() > 400;

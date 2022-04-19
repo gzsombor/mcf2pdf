@@ -45,6 +45,7 @@ public class Main {
 		options.addOption(o);
 		options.addOption("h", false, "Prints this help and exits.");
 		options.addOption("t", true, "Location of MCF temporary files.");
+		options.addOption("c", true, "Location of MCF (hps dir) additional files.");
 		options.addOption("w", true, "Location for temporary images generated during conversion.");
 		options.addOption("r", true, "Sets the resolution to use for page rendering, in DPI. Default is 150.");
 		options.addOption("n", true, "Sets the page number to render up to. Default renders all pages.");
@@ -82,6 +83,15 @@ public class Main {
 			printUsage(options, new ParseException("Specified installation directory does not exist."));
 			System.exit(3);
 			return;
+		}
+		File hpsDirPath=null;
+		if (cl.hasOption("c")) {
+			hpsDirPath = new File(cl.getOptionValue("c"));
+			if (!hpsDirPath.isDirectory()) {
+				printUsage(options, new ParseException("Specified hps directory does not exist."));
+				System.exit(3);
+				return;
+			}
 		}
 
 		File tempDir = null;
@@ -199,7 +209,7 @@ public class Main {
 		Log log = LogFactory.getLog(Main.class);
 
 		try {
-			new Mcf2FoConverter(installDir, tempDir, tempImages).convert(
+			new Mcf2FoConverter(installDir, tempDir, tempImages,hpsDirPath).convert(
 					mcfFile, xslFoOut, dpi, binding, pageNum, maxPageNo,sx);
 			xslFoOut.flush();
 

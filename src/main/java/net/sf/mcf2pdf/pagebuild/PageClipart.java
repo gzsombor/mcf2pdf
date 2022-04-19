@@ -48,9 +48,17 @@ public class PageClipart implements PageDrawable {
 	@Override
 	public BufferedImage renderAsBitmap(PageRenderContext context,
 			Point drawOffsetPixels, int widthPX, int heightPX) throws IOException {
-		File f = context.getClipart(clipart.getUniqueName());
+		File f = null;
+		if(clipart.getdesignElementId() == null) {
+			 f = context.getClipart(clipart.getUniqueName());
+		} else {
+			 f = context.getClipartViaDesignElementId(clipart.getdesignElementId());
+		}
 		if (f == null) {
-			context.getLog().warn("Clipart not found: " + clipart.getUniqueName());
+			if(clipart.getdesignElementId() == null)
+				context.getLog().warn("Clipart not found: " + clipart.getUniqueName());
+			else
+				context.getLog().warn("Clipart designElementId not found: " + clipart.getdesignElementId());
 			return null;
 		}
 		context.getLog().debug("Rendering clipart " + f);

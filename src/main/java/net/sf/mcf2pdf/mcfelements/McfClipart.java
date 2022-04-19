@@ -10,4 +10,6 @@ public interface McfClipart extends McfAreaContent {
 	
 	public String getUniqueName();
 
+	public String getdesignElementId();
+
 }

@@ -2,7 +2,10 @@ package net.sf.mcf2pdf.mcfconfig;
 
 public class Clipart {
 	private String file;
-	private String designElementType; 
+	private String designElementType;
+	private String designElementId;
+
+
 	private double ratio;
 	
 	public String getFile() {
@@ -22,5 +25,12 @@ public class Clipart {
 	}
 	public void setRatio(double ratio) {
 		this.ratio = ratio;
+	}
+	public String getDesignElementId() {
+		return designElementId;
+	}
+
+	public void setDesignElementId(String designElementId) {
+		this.designElementId = designElementId;
 	}
 }

@@ -3,6 +3,9 @@ package net.sf.mcf2pdf.mcfconfig;
 public class Fading {
 	private String file;
 	private String designElementType;
+	private String designElementId;
+
+
 	private double ratio;
 	private double keepAspectRatio;
 	
@@ -44,5 +47,13 @@ public class Fading {
 	}
 	public void setFotoarea(Fotoarea fotoarea) {
 		this.fotoarea = fotoarea;
+	}
+
+	public String getDesignElementId() {
+		return designElementId;
+	}
+
+	public void setDesignElementId(String designElementId) {
+		this.designElementId = designElementId;
 	}
 }

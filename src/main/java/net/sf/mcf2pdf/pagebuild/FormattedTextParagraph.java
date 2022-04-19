@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Vector;
 
 public class FormattedTextParagraph {
-	
+
 	public static enum Alignment {
 		LEFT, CENTER, RIGHT, JUSTIFY
 	}
@@ -116,6 +116,31 @@ public class FormattedTextParagraph {
 		return true;
 	}
 
+	public float getMarginTop() {
+		if (texts.isEmpty())
+			return 0;
+		for (FormattedText t : texts) {
+			if (t.getMargintop() > 0)
+				return t.getMargintop();
+			else
+				return 0;
+		}
+		return 0;
+	}
+
+	public float getMarginBottom() {
+		if (texts.isEmpty())
+			return 0;
+		for (FormattedText t : texts) {
+			if (t.getMarginbottom() > 0)
+				return t.getMarginbottom();
+			else
+				return 0;
+		}
+		return 0;
+	}
+
+
 	public int getEmptyHeight(Graphics2D graphics, PageRenderContext context) {
 		if (texts.isEmpty())
 			return 0;
@@ -127,6 +152,9 @@ public class FormattedTextParagraph {
 		FontMetrics fm = graphics.getFontMetrics(font);
 		return fm.getHeight();
 	}
+
+	// return bottom / top
+	//public
 	
 	private Font createFont(FormattedText text, PageRenderContext context) {
 		Font font = null;

@@ -18,8 +18,14 @@ public class FormattedText {
 	private String fontFamily;
 	private float fontSize;
 
+	private int margintop;
+	private int marginleft;
+	private int marginbottom;
+	private int marginright;
+
 	public FormattedText(String text, boolean bold, boolean italic,
-			boolean underline, Color textColor, String fontFamily, float fontSize) {
+			boolean underline, Color textColor, String fontFamily, float fontSize,
+						 int margintop,int marginright,int marginbottom,int marginleft) {
 		this.text = text;
 		this.bold = bold;
 		this.italic = italic;
@@ -27,6 +33,10 @@ public class FormattedText {
 		this.textColor = textColor;
 		this.fontFamily = fontFamily;
 		this.fontSize = fontSize;
+		this.margintop =margintop;
+		this.marginright =marginright;
+		this.marginbottom = marginbottom;
+		this.marginleft = marginleft;
 	}
 
 	public String getText() {
@@ -56,5 +66,13 @@ public class FormattedText {
 	public float getFontSize() {
 		return fontSize;
 	}
+
+	public int getMargintop() { return margintop;}
+
+	public int getMarginleft() { return marginleft;}
+
+	public int getMarginbottom() {return marginbottom;}
+
+	public int getMarginright() {return marginright;}
 
 }

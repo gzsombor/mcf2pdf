@@ -11,10 +11,15 @@ public class McfBackgroundImpl implements McfBackground {
 	private McfPage page;
 	
 	private String templateName;
-	
+
+	private String designElementId;
 	private int type;
-	
+
 	private int layout;
+
+	private int Hue;
+	private int Fading;
+	private int Rotation;
 	
 	public McfPage getPage() {
 		return page;
@@ -44,8 +49,36 @@ public class McfBackgroundImpl implements McfBackground {
 		return layout;
 	}
 
+	@Override
+	public int getHue() {
+		return Hue;
+	}
+
+	public void setHue(int hue) {this.Hue = hue;};
+
+	public void setRotation(int rotation) {this.Rotation = rotation;};
+
+	public void setFading(int fading) {this.Fading = fading;};
+
+	@Override
+	public int getRotation() {
+		return Rotation;
+	}
+
+	@Override
+	public int getFading() {
+		return Fading;
+	}
+
 	public void setLayout(int layout) {
 		this.layout = layout;
 	}
 
+	public void setDesignElementId(String designElementId) {
+		this.designElementId = designElementId;
+	}
+	@Override
+	public String getDesignElementId() {
+		return designElementId;
+	}
 }

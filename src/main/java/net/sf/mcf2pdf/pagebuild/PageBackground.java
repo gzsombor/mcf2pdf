@@ -3,10 +3,9 @@
  *******************************************************************************/
 package net.sf.mcf2pdf.pagebuild;
 
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
@@ -51,26 +50,36 @@ public class PageBackground implements PageDrawable {
 
 		if (fLeft != null && fLeft.equals(fRight)) {
 			// draw the background image on whole page
-			drawBackground(fLeft, g2d, 0, 0, img.getWidth(), img.getHeight());
+			int hue = extractHueFromBackGround(leftBg);
+			drawBackground(fLeft, g2d, 0, 0, img.getWidth(), img.getHeight(),hue);
 		}
 		else {
 			// process background parts separate
-			if (fLeft != null)
-				drawBackground(fLeft, g2d, 0, 0, img.getWidth() / 2, img.getHeight());
-			if (fRight != null)
-				drawBackground(fRight, g2d, img.getWidth() / 2, 0, img.getWidth() / 2, img.getHeight());
+			if (fLeft != null) {
+				int hueleft = extractHueFromBackGround(leftBg);
+				drawBackground(fLeft, g2d, 0, 0, img.getWidth() / 2, img.getHeight(), hueleft);
+			}
+			if (fRight != null) {
+				int hueright = extractHueFromBackGround(rightBg);
+				drawBackground(fRight, g2d, img.getWidth() / 2, 0, img.getWidth() / 2, img.getHeight(), hueright);
+			}
 		}
 
 		g2d.dispose();
 		return img;
 	}
 
-	private void drawBackground(File f, Graphics2D g2d, int x, int y, int width, int height) throws IOException {
+	private void drawBackground(File f, Graphics2D g2d, int x, int y, int width, int height, int hue) throws IOException {
 		BufferedImage img = ImageUtil.readImage(f);
 		if (img == null) {
 			throw new IOException("Could not read image file: " + f.getAbsolutePath());
 		}
-
+		/// aply hue 270
+		BufferedImage applied=null;
+		if(f.getName().equalsIgnoreCase("6898.webp")) {
+			 applied=applyHue(img, hue/360.0f);
+		} else
+			applied = img;
 		float tgtRatio = width / (float)height;
 
 		float imgRatio = img.getWidth() / (float)img.getHeight();
@@ -94,18 +103,52 @@ public class PageBackground implements PageDrawable {
 		int sw = (int)(width / scale);
 		int sh = (int)(height / scale);
 
-		g2d.drawImage(img, x, y, x + width, y + height, sx, sy, sx + sw, sy + sh, null);
+		g2d.drawImage(applied, x, y, x + width, y + height, sx, sy, sx + sw, sy + sh, null);
+	}
+
+	private BufferedImage applyHue(BufferedImage image, float hue) {
+		int width = image.getWidth();
+		int height = image.getHeight();
+		WritableRaster raster = image.getRaster();
+		BufferedImage res = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		WritableRaster resRast = res.getRaster();
+
+		for (int xx = 0; xx < width; xx++) {
+			for (int yy = 0; yy < height; yy++) {
+				//Color color = new Color(Color.HSBtoRGB(hue, 0.7f, 0.7f));
+				int RGB=image.getRGB(xx,yy);
+				//int[] pixels = raster.getPixel(xx, yy, (int[]) null);
+				int R = (RGB >> 16) & 0xff;
+				int G = (RGB >> 8) & 0xff;
+				int B = (RGB) & 0xff;
+				float HSV[]=new float[3];
+				Color.RGBtoHSB(R,G,B,HSV);
+				//pixels[0] = color.getRed();
+				//pixels[1] = color.getGreen();
+				//pixels[2] = color.getBlue();
+				//float newhue = (hue)%1.0f;
+				//float newsat = HSV[1];
+				float newsat = (float) Math.sqrt(HSV[1]*100)/100;
+				res.setRGB(xx,yy,Color.getHSBColor(hue,newsat,HSV[2]).getRGB());
+				//resRast.setPixel(xx, yy, pixels);
+			}
+		}
+		return res;
 	}
 
 	private File extractBackground(List<? extends McfBackground> bgs,
 			PageRenderContext context) throws IOException {
 		for (McfBackground bg : bgs) {
 			String tn = bg.getTemplateName();
-			if (tn == null || !tn.matches("[a-zA-Z0-9_]+,normal(,.*)?"))
+			String designElementId = bg.getDesignElementId();
+			if (designElementId != null) {
+				tn = designElementId;
+			} else {
+				if (tn == null || !tn.matches("[a-zA-Z0-9_]+,normal(,.*)?"))
 				continue;
-
-			tn = tn.substring(0, tn.indexOf(","));
-
+			if(designElementId == null)
+				tn = tn.substring(0, tn.indexOf(","));
+			}
 			File f = context.getBackgroundImage(tn);
 			if (f == null) {
 				f = context.getBackgroundColor(tn);
@@ -117,6 +160,17 @@ public class PageBackground implements PageDrawable {
 		}
 
 		return null;
+	}
+
+	private int extractHueFromBackGround(List<? extends McfBackground> bgs) {
+		int hue=0;
+		for (McfBackground bg : bgs) {
+			if(bg.getHue()>0) {
+				hue=bg.getHue();
+			};
+		}
+
+		return hue;
 	}
 
 	@Override

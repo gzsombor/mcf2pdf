@@ -37,6 +37,10 @@ public final class McfFileUtil {
 	 * @throws FileNotFoundException If the file could not be found.
 	 */
 	public static File getImageFile(String fileName, McfFotobook fotobook) throws FileNotFoundException {
+		if (fileName.startsWith("safecontainer:")) {
+			// Version 4.x
+			fileName = fileName.substring(14);
+		}
 		File f = new File(new File(fotobook.getFile().getParentFile(), fotobook.getImageDir()), fileName);
 		if (f.isFile())
 			return f;
