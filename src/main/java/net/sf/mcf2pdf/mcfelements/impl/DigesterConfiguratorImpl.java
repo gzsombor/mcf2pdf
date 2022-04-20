@@ -147,11 +147,24 @@ public class DigesterConfiguratorImpl implements DigesterConfigurator {
 		digester.addSetNext("fotobook/page/area/image", "setContent");
 		digester.addSetTop("fotobook/page/area/image", "setArea");
 
+		// cutout element Version 4.x
+		digester.addObjectCreate("fotobook/page/area/image/cutout", getCutoutClass());
+		DigesterUtil.addSetProperties(digester, "fotobook/page/area/image/cutout", getSpecialCutoutAttributes());
+		digester.addSetNext("fotobook/page/area/image/cutout", "setCutout", McfCutout.class.getName());
+
+
 		// imagebackground element
 		digester.addObjectCreate("fotobook/page/area/imagebackground", getImageBackgroundClass());
 		DigesterUtil.addSetProperties(digester, "fotobook/page/area/imagebackground", getSpecialImageAttributes());
 		digester.addSetNext("fotobook/page/area/imagebackground", "setContent");
 		digester.addSetTop("fotobook/page/area/imagebackground", "setArea");
+
+		// position element
+		digester.addObjectCreate("fotobook/page/area/position", getPositionClass());
+		DigesterUtil.addSetProperties(digester, "fotobook/page/area/position", getSpecialPositionAttributes());
+		digester.addSetNext("fotobook/page/area/position", "setPosition");
+
+
 
 		// colors config file
 		digester.addObjectCreate("templates", LinkedList.class);
@@ -162,13 +175,23 @@ public class DigesterConfiguratorImpl implements DigesterConfigurator {
 		// Decorations (fotoframes)
 		digester.addObjectCreate("decorations", LinkedList.class);
 		digester.addObjectCreate("decorations/decoration", Decoration.class);
+		DigesterUtil.addSetProperties(digester, "decorations/decoration", getSpecialDecorationAttributes());
 		digester.addObjectCreate("decorations/decoration/fading", Fading.class);
 		digester.addSetProperties("decorations/decoration/fading");
 		digester.addSetNext("decorations/decoration/fading", "setFading");
-
+		// old
 		digester.addObjectCreate("decorations/decoration/fading/clipart", Clipart.class);
 		digester.addSetProperties("decorations/decoration/fading/clipart");
 		digester.addSetNext("decorations/decoration/fading/clipart", "setClipart");
+
+		// new file with cliparts 7.1.5
+
+		digester.addObjectCreate("decorations/decoration/clipart", Clipart.class);
+		digester.addSetProperties("decorations/decoration/clipart");
+		digester.addSetNext("decorations/decoration/clipart", "setClipart");
+
+		// Decorations clipart
+
 
 		digester.addObjectCreate("decorations/decoration/fading/fotoarea", Fotoarea.class);
 		digester.addSetProperties("decorations/decoration/fading/fotoarea");

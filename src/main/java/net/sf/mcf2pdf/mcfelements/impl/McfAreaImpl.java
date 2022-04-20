@@ -48,6 +48,16 @@ public class McfAreaImpl implements McfArea {
 
 	private McfBorder border;
 
+	public void setzPosition(int zPosition) {
+		this.zPosition = zPosition;
+	}
+
+	public void setCorner(McfCorners corner) {
+		this.corner = corner;
+	}
+
+	private McfCorners corner;
+
 	@Override
 	public McfPage getPage() {
 		return page;
@@ -227,6 +237,11 @@ public class McfAreaImpl implements McfArea {
 
 	public McfBorder getBorder() {
 		return border;
+	}
+
+	@Override
+	public McfCorners getCorners() {
+		return corner;
 	}
 
 	public void setBorder(McfBorder border) {
