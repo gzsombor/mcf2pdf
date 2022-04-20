@@ -20,11 +20,11 @@ import java.util.Locale;
 
 import javax.imageio.ImageIO;
 
-import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
 import org.apache.batik.bridge.BridgeContext;
 import org.apache.batik.bridge.GVTBuilder;
 import org.apache.batik.bridge.UserAgentAdapter;
 import org.apache.batik.bridge.ViewBox;
+import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
 import org.apache.batik.ext.awt.RenderingHintsKeyExt;
 import org.apache.batik.gvt.GraphicsNode;
 import org.apache.batik.svggen.SVGGraphics2D;
@@ -161,7 +161,7 @@ public final class ImageUtil {
 
 // Finally, stream out SVG to the standard output using UTF-8
 // character to byte encoding
-		if(clpFile.getName().contains("clp")) {
+		/*if(clpFile.getName().contains("clp")) {
 			boolean useCSS = true; // we want to use CSS style attribute
 			Writer out;
 			try {
@@ -177,7 +177,7 @@ public final class ImageUtil {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 		AffineTransform usr2dev = ViewBox.getPreserveAspectRatioTransform(vb, SVGPreserveAspectRatio.SVG_PRESERVEASPECTRATIO_NONE,
 				true, widthPixel, heightPixel);
 		// ugly fix for some clips

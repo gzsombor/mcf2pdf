@@ -22,11 +22,11 @@ public class McfClipartImpl extends AbstractMcfAreaContentImpl implements McfCli
 	}
 
 	@Override
-	public String getdesignElementId() {
+	public String getDesignElementId() {
 		return designElementId;
 	}
 
-	public void setdesignElementId(String designElementId) {
+	public void setDesignElementId(String designElementId) {
 		this.designElementId = designElementId;
 	}
 
