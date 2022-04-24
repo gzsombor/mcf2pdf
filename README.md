@@ -1,10 +1,10 @@
 # mcf2pdf Converter for Mein CEWE Fotobuch (My CEWE Photobook) files to PDF
 
-Latest Release: Version **0.3.6**
+Latest Release: Version **0.7.1.1**
 
 Author: Florian Albrecht
 
-Downloads can be found [here](https://github.com/albrechtf/mcf2pdf/releases). Please read the **installation instructions** below carefully, **otherwise the software will definitely not work for you.** You have been warned.
+Downloads can be found [here](https://github.com/rbodziony/mcf2pdf/releases). Please read the **installation instructions** below carefully, **otherwise the software will definitely not work for you.** You have been warned.
 
 ## What is mcf2pdf? What not?
 
@@ -112,7 +112,7 @@ If you get an error like "Java Heap Space" or OutOfMemoryException,
 there is not enough memory for the page rendering. Adjust the startup 
 script (see chapter 2) to set higher memory  levels for Java. You can find memory 
 settings in the line containing `MCF2PDF_JAVA_OPTS=...`. 
-Increase the option `-Xmx128M` e.g. to 512M.
+Increase the option `-Xmx4G` e.g. to 8G.
 
 ## Legal Stuff (Disclaimer)
 
