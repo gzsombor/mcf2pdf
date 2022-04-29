@@ -89,17 +89,9 @@ public class PageImage implements PageDrawable {
 			else
 				frame = context.getFotoFrameViaDesignElementID(image.getPassepartoutDesignElementId());
 			if (frame != null && frame.getFading() != null) {
-				context.getLog().debug("grabbing fadding from fotoframe " + frame.getFading());
 				maskFile = frame.getFading();
 			} else {
-				context.getLog().debug("grabbing fadding from image");
-				String faddingfilename = image.getFadingFile();
-				if(faddingfilename == null) {
-					context.getLog().debug("grabing fadding from PassePartout="+image.getPassePartoutDesignElementId());
-					faddingfilename = "fading_"+context.getFadingFromDesignedElementID(image.getPassePartoutDesignElementId());
-				}
-				maskFile = context.getFading(faddingfilename);
-
+				maskFile = context.getFading(image.getFadingFile());
 			}
 			if (frame != null && frame.getClipart() != null) {
 				clipartFile = frame.getClipart();
@@ -110,7 +102,7 @@ public class PageImage implements PageDrawable {
 					fotoArea = config.getFotoarea();
 				}
 			}
-			if (maskFile == null) 
+			if (maskFile == null)
 				context.getLog().warn("Could not find fading file: " + image.getFadingFile());
 		}
 

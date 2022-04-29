@@ -11,7 +11,6 @@ public class McfClipartImpl extends AbstractMcfAreaContentImpl implements McfCli
 	private String designElementId;
 
 
-	private String designElementId;
 
 	@Override
 	public ContentType getContentType() {
@@ -35,8 +34,7 @@ public class McfClipartImpl extends AbstractMcfAreaContentImpl implements McfCli
 		this.uniqueName = uniqueName;
 	}
 
-	public void setDesignElementId(String designElementId) {this.designElementId = designElementId;}
-	public String getDesignElementId() {return designElementId;}
+
 
 
 }
