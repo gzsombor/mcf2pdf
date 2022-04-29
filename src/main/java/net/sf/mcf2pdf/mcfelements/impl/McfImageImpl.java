@@ -3,6 +3,7 @@
  *******************************************************************************/
 package net.sf.mcf2pdf.mcfelements.impl;
 
+import net.sf.mcf2pdf.mcfelements.McfCutout;
 import net.sf.mcf2pdf.mcfelements.McfImage;
 
 public class McfImageImpl extends AbstractMcfAreaContentImpl implements McfImage {
@@ -13,9 +14,9 @@ public class McfImageImpl extends AbstractMcfAreaContentImpl implements McfImage
 	
 	private int useABK;
 	
-	private int left;
+	private float left;
 	
-	private int top;
+	private float top;
 	
 	private String fileNameMaster;
 	
@@ -25,7 +26,9 @@ public class McfImageImpl extends AbstractMcfAreaContentImpl implements McfImage
 	
 	private String fadingFile;
 
-    private String passepartoutDesignElementId;
+	private String passepartoutDesignElementId;
+
+	private McfCutout cutout;
 
 	@Override
 	public ContentType getContentType() {
@@ -42,6 +45,10 @@ public class McfImageImpl extends AbstractMcfAreaContentImpl implements McfImage
 	}
 
 	public float getScale() {
+		// Version 4.x
+		if (this.cutout != null) {
+			return this.cutout.getScale();
+		}
 		return scale;
 	}
 
@@ -57,19 +64,28 @@ public class McfImageImpl extends AbstractMcfAreaContentImpl implements McfImage
 		this.useABK = useABK;
 	}
 
-	public int getLeft() {
+	public float getLeft() {
+		// Version 4.x
+		if (this.cutout != null) {
+			return this.cutout.getLeft()/this.cutout.getScale();
+		}
 		return left;
 	}
 
-	public void setLeft(int left) {
+	public void setLeft(float left) {
 		this.left = left;
 	}
 
-	public int getTop() {
+	public float getTop() {
+		// Version 4.x
+		if (this.cutout != null) {
+		//	log.debug("top from cutout: " + this.cutout.getTop());
+			return this.cutout.getTop()/this.cutout.getScale();
+		}
 		return top;
 	}
 
-	public void setTop(int top) {
+	public void setTop(float top) {
 		this.top = top;
 	}
 
@@ -98,11 +114,18 @@ public class McfImageImpl extends AbstractMcfAreaContentImpl implements McfImage
 	}
 
 	public String getFadingFile() {
+		// Version 6/7 ...
+		if (this.cutout != null) {
+			return passepartoutDesignElementId;
+		}
+		if(this.passepartoutDesignElementId != null) {
+			return passepartoutDesignElementId;
+		}
 		return fadingFile;
 	}
 
 	@Override
-	public String getPassePartoutDesignElementId() {
+	public String getPassepartoutDesignElementId() {
 		return passepartoutDesignElementId;
 	}
 
@@ -113,6 +136,14 @@ public class McfImageImpl extends AbstractMcfAreaContentImpl implements McfImage
 	public void setFadingFile(String fadingFile) {
 		this.fadingFile = fadingFile;
 	}
-	
+
+	public McfCutout getCutout() {
+		return cutout;
+	}
+
+	public void setCutout(McfCutout cutout) {
+//		log.debug("cutout.top: " + cutout.getTop());
+		this.cutout = cutout;
+	}
 
 }

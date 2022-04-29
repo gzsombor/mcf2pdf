@@ -74,6 +74,8 @@ public class McfResourceScanner {
 				String nm = f.getName().toLowerCase(Locale.US);
 				log.debug("nm="+nm);
 				String path = f.getAbsolutePath();
+				log.debug("nm="+nm);
+				log.debug("path="+path);
 				if (nm.matches(".+\\.(jp(e?)g|webp|bmp)")) {
 					String id = nm.substring(0, nm.indexOf("."));
 					foundImages.put(id, f);
@@ -126,7 +128,59 @@ public class McfResourceScanner {
 					String id = f.getName().substring(0, nm.lastIndexOf("."));
 					List<Decoration> spec = loadDecoration(f);
 					if (spec.size() == 1) {
-						foundDecorations.put(id, spec.get(0).getFading());
+						String type = spec.get(0).getType();
+
+						String designElementId = spec.get(0).getDesignElementId();
+						if (designElementId != null)
+							foundDecorations.put(spec.get(0).getDesignElementId(), spec.get(0).getFading());
+						else {
+							if(type.equalsIgnoreCase("fading")) {
+								String fadingdesignElementId = spec.get(0).getFading().getDesignElementId();
+								if (fadingdesignElementId != null) {
+									Fading temp = new Fading();
+									temp.setFile(spec.get(0).getFading().getFile());
+									foundDecorations.put(fadingdesignElementId, temp);
+								}
+								continue;
+							}
+							if(type.equalsIgnoreCase("clipart")) {
+								// clipboard
+								String clipartdesignElementId = spec.get(0).getClipart().getDesignElementId();
+								if (clipartdesignElementId != null) {
+									Fading temp = new Fading();
+									temp.setClipart(spec.get(0).getClipart());
+									foundDecorations.put(clipartdesignElementId, temp);
+								}
+								continue;
+							}
+						}
+						continue;
+					}
+					if(spec.size() >1) {
+						log.info("Processing decorations from: " + path);
+						for(Decoration dec:spec) {
+							String type = dec.getType();
+							// fading
+							if(type.equalsIgnoreCase("fading")) {
+								String designElementId = dec.getFading().getDesignElementId();
+								if (designElementId != null) {
+									Fading temp = new Fading();
+									temp.setFile(dec.getFading().getFile());
+									foundDecorations.put(designElementId, temp);
+								}
+								continue;
+							}
+							if(type.equalsIgnoreCase("clipart")) {
+									// clipboard
+									String designElementId = dec.getClipart().getDesignElementId();
+									if (designElementId != null) {
+										Fading temp = new Fading();
+										temp.setClipart(dec.getClipart());
+										foundDecorations.put(designElementId, temp);
+									}
+									continue;
+							}
+						}
 					} else {
 						log.warn("Failed to load decorations from: " + path);
 						//if(id.equalsIgnoreCase("cliparts_default") ||

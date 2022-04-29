@@ -12,8 +12,15 @@ public interface McfBackground {
 
 	public String getTemplateName();
 
+	public String getDesignElementId();
 	public int getType();
 
 	public int getLayout();
+
+	public int getHue();
+
+	public int getRotation();
+
+	public int getFading();
 
 }

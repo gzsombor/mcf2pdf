@@ -18,7 +18,8 @@ SET MCF_TEMP_DIR=
 REM
 REM Java Options. You can adjust reserved memory (RAM) here
 REM
-SET MCF2PDF_JAVA_OPTS=-Xms64M -Xmx1024M
+SET MCF2PDF_JAVA_OPTS=-Xms64M -Xmx4G
+
 
 
 

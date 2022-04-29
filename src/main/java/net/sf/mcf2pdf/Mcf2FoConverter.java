@@ -86,7 +86,7 @@ public class Mcf2FoConverter {
 	 * @throws SAXException If any of the XML files in the installation directory
 	 * which are parsed have a format error.
 	 */
-	public Mcf2FoConverter(File mcfInstallDir, File mcfTempDir, File tempImageDir) throws IOException, SAXException {
+	public Mcf2FoConverter(File mcfInstallDir, File mcfTempDir, File tempImageDir,File hpsDirPath) throws IOException, SAXException {
 		this.tempImageDir = tempImageDir;
 
 		// get all products - scan ALL XML files in Resources for fotobookdefinitions
@@ -104,24 +104,27 @@ public class Mcf2FoConverter {
 		// search all resources
 		// on Windows, also scan "<Common Application Data>/hps", if existing
 		File hpsDir = null;
-		try {
-			char[] pszPath = new char[WinDef.MAX_PATH];
-			if (Shell32.INSTANCE.SHGetFolderPath(null, ShlObj.CSIDL_COMMON_APPDATA, null, ShlObj.SHGFP_TYPE_CURRENT, pszPath).intValue() == 0) {
-				File f = new File(new File(Native.toString(pszPath)), "hps");
-				if (f.isDirectory()) {
-					hpsDir = f;
+		if (hpsDirPath == null) {
+			hpsDir = null;
+			try {
+				char[] pszPath = new char[WinDef.MAX_PATH];
+				if (Shell32.INSTANCE.SHGetFolderPath(null, ShlObj.CSIDL_COMMON_APPDATA, null, ShlObj.SHGFP_TYPE_CURRENT, pszPath).intValue() == 0) {
+					File f = new File(new File(Native.toString(pszPath)), "hps");
+					if (f.isDirectory()) {
+						hpsDir = f;
+					}
+				}
+			} catch (Throwable t) {
+				// OK, no Windows, obviously
+				// try home directory
+				File homeHpsDir = new File(new File(System.getProperty("user.home")), ".mcf/hps");
+				if (homeHpsDir.isDirectory()) {
+					hpsDir = homeHpsDir;
 				}
 			}
+		} else {
+			hpsDir = hpsDirPath;
 		}
-		catch (Throwable t) {
-			// OK, no Windows, obviously
-			// try home directory
-			File homeHpsDir = new File(new File(System.getProperty("user.home")), ".mcf/hps");
-			if (homeHpsDir.isDirectory()) {
-				hpsDir = homeHpsDir;
-			}
-		}
-
 		List<File> scanDirs = new ArrayList<File>();
 		scanDirs.add(new File(mcfInstallDir, "Resources"));
 		scanDirs.add(mcfTempDir);
@@ -292,6 +295,10 @@ public class Mcf2FoConverter {
 			else if (McfArea.TEXTAREA.matcher(a.getAreaType()).matches()) {
 				currentPage.addDrawable(new PageText((McfText)a.getContent()));
 			}
+			else if (McfArea.SPINETEXTAREA.matcher(a.getAreaType()).matches()) {
+				currentPage.addDrawable(new PageText((McfText)a.getContent()));
+			}
+
 		}
 		
 		if (addPageNum) {

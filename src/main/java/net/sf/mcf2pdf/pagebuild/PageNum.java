@@ -85,7 +85,9 @@ public class PageNum implements PageDrawable {
 		Color textColor = pageNum.getTextColor();
 		String fontFamily = pageNum.getFontFamily();
 		Float fontSize = pageNum.getFontSize();
-		return new FormattedText(text, bold, italics, false, textColor, fontFamily, fontSize);
+		// TODO check margins for Pagenum
+		return new FormattedText(text, bold, italics, false, textColor, fontFamily, fontSize,
+								0,0,0,0);
 	}
 
 	@Override

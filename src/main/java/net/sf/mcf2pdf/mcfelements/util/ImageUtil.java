@@ -14,12 +14,7 @@ import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.lang.ref.WeakReference;
 import java.util.Locale;
 
@@ -32,6 +27,8 @@ import org.apache.batik.bridge.ViewBox;
 import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
 import org.apache.batik.ext.awt.RenderingHintsKeyExt;
 import org.apache.batik.gvt.GraphicsNode;
+import org.apache.batik.svggen.SVGGraphics2D;
+import org.apache.batik.svggen.SVGGraphics2DIOException;
 import org.apache.batik.util.XMLResourceDescriptor;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
@@ -159,9 +156,43 @@ public final class ImageUtil {
         svgDocument = getSVGDocument(clpFile);
         rootSvgNode = getRootNode(svgDocument, bridgeContext);
         float[] vb = getViewBox(bridgeContext, svgDocument);
+		//
 
+
+// Finally, stream out SVG to the standard output using UTF-8
+// character to byte encoding
+		/*if(clpFile.getName().contains("clp")) {
+			boolean useCSS = true; // we want to use CSS style attribute
+			Writer out;
+			try {
+				SVGGraphics2D graphics = new SVGGraphics2D(svgDocument);
+				out = new OutputStreamWriter(new FileOutputStream(clpFile.getName().replace("clp","svg")), "UTF-8");
+				graphics.stream(svgDocument.getDocumentElement(), out,useCSS,false);
+				out.flush();
+				out.close();
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (SVGGraphics2DIOException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}*/
 		AffineTransform usr2dev = ViewBox.getPreserveAspectRatioTransform(vb, SVGPreserveAspectRatio.SVG_PRESERVEASPECTRATIO_NONE,
 				true, widthPixel, heightPixel);
+		// ugly fix for some clips
+		AffineTransform result = new AffineTransform();
+		if(usr2dev.getTranslateX()<0) {
+			log.debug("usr2dev="+usr2dev.toString());
+			log.debug("fixing for "+clpFile);
+			//usr2dev.translate(0,usr2dev.getTranslateY());
+			result = new AffineTransform();
+			result.scale((double)(widthPixel / vb[2]), (double)(heightPixel / vb[3]));
+			if(vb[0]>0)
+				vb[0]=0;
+			result.translate((double)(-vb[0]), (double)(-vb[1]));
+			usr2dev = result;
+		}
 
 		BufferedImage img = new BufferedImage(widthPixel, heightPixel, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2d = img.createGraphics();

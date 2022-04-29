@@ -14,9 +14,9 @@ public interface McfImage extends McfAreaContent {
 
 	public int getUseABK();
 
-	public int getLeft();
+	public float getLeft();
 
-	public int getTop();
+	public float getTop();
 
 	public String getFileNameMaster();
 
@@ -26,5 +26,6 @@ public interface McfImage extends McfAreaContent {
 	
 	public String getFadingFile();
 
-	public String getPassePartoutDesignElementId();
+	public String getPassepartoutDesignElementId();
+
 }

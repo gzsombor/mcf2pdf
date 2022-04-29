@@ -5,10 +5,7 @@ package net.sf.mcf2pdf.mcfelements.impl;
 
 import java.awt.Color;
 
-import net.sf.mcf2pdf.mcfelements.McfArea;
-import net.sf.mcf2pdf.mcfelements.McfAreaContent;
-import net.sf.mcf2pdf.mcfelements.McfBorder;
-import net.sf.mcf2pdf.mcfelements.McfPage;
+import net.sf.mcf2pdf.mcfelements.*;
 
 
 public class McfAreaImpl implements McfArea {
@@ -46,8 +43,20 @@ public class McfAreaImpl implements McfArea {
 	private Color backgroundColor;
 	
 	private McfAreaContent content;
-	
+
+	private McfPosition position;
+
 	private McfBorder border;
+
+	public void setzPosition(int zPosition) {
+		this.zPosition = zPosition;
+	}
+
+	public void setCorner(McfCorners corner) {
+		this.corner = corner;
+	}
+
+	private McfCorners corner;
 
 	@Override
 	public McfPage getPage() {
@@ -60,6 +69,10 @@ public class McfAreaImpl implements McfArea {
 
 	@Override
 	public float getLeft() {
+		// Version 4.x
+		if (this.position != null) {
+			return this.position.getLeft();
+		}
 		return left;
 	}
 
@@ -69,6 +82,10 @@ public class McfAreaImpl implements McfArea {
 
 	@Override
 	public float getTop() {
+		// Version 4.x
+		if (this.position != null) {
+			return this.position.getTop();
+		}
 		return top;
 	}
 
@@ -78,6 +95,10 @@ public class McfAreaImpl implements McfArea {
 
 	@Override
 	public float getWidth() {
+		// Version 4.x
+		if (this.position != null) {
+			return this.position.getWidth();
+		}
 		return width;
 	}
 
@@ -87,6 +108,10 @@ public class McfAreaImpl implements McfArea {
 
 	@Override
 	public float getHeight() {
+		// Version 4.x
+		if (this.position != null) {
+			return this.position.getHeight();
+		}
 		return height;
 	}
 
@@ -96,6 +121,10 @@ public class McfAreaImpl implements McfArea {
 
 	@Override
 	public float getRotation() {
+		// Version 4.x
+		if (this.position != null) {
+			return this.position.getRotation();
+		}
 		return rotation;
 	}
 
@@ -105,6 +134,10 @@ public class McfAreaImpl implements McfArea {
 
 	@Override
 	public int getZPosition() {
+		// Version 4.x
+		if (this.position != null) {
+			return this.position.getZPosition();
+		}
 		return zPosition;
 	}
 
@@ -206,8 +239,22 @@ public class McfAreaImpl implements McfArea {
 		return border;
 	}
 
+	@Override
+	public McfCorners getCorners() {
+		return corner;
+	}
+
 	public void setBorder(McfBorder border) {
 		this.border = border;
+	}
+
+	@Override
+	public McfPosition getPosition() {
+		return position;
+	}
+
+	public void setPosition(McfPosition position) {
+		this.position = position;
 	}
 
 }

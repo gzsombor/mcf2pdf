@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.florian-albrecht.tools</groupId>
 	<artifactId>mcf2pdf</artifactId>
-	<version>0.3.8-SNAPSHOT</version>
+	<version>0.7.1.1-SNAPSHOT</version>
 	<name>mcf2pdf</name>
 	<description>mcf2pdf enables you to convert photobooks generated with the My CEWE Photobook software to PDF files for preview.</description>
 
@@ -12,9 +12,9 @@
 	</properties>
 
 	<scm>
-		<connection>scm:git:https://github.com/albrechtf/mcf2pdf.git</connection>
-		<url>https://github.com/albrechtf/mcf2pdf.git</url>
-		<developerConnection>scm:git:https://github.com/albrechtf/mcf2pdf.git</developerConnection>
+		<connection>scm:git:https://github.com/rbodziony/mcf2pdf.git</connection>
+		<url>https://github.com/rbodziony/mcf2pdf.git</url>
+		<developerConnection>scm:git:https://github.com/rbodziony/mcf2pdf.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
@@ -22,6 +22,10 @@
 		<developer>
 			<id>albrechtf</id>
 			<name>Florian Albrecht</name>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<id>rbodziony</id>
 			<timezone>+1</timezone>
 		</developer>
 	</developers>
@@ -42,6 +46,7 @@
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>batik-svggen</artifactId>
 			<version>1.7</version>
+			<!-- 1.11 fails at runtime-->
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>

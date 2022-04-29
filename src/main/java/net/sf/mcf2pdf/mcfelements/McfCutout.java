@@ -6,11 +6,11 @@ package net.sf.mcf2pdf.mcfelements;
 /**
  * TODO comment
  */
-public interface McfClipart extends McfAreaContent {
-	
-	public String getUniqueName();
-	public String getDesignElementId();
+public interface McfCutout {
 
-	public String getDesignElementId();
+	public float getScale();
 
+	public float getLeft();
+
+	public float getTop();
 }

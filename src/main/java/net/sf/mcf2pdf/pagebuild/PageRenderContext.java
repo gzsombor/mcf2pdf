@@ -123,16 +123,22 @@ public final class PageRenderContext {
 	 * @return The CLP file containing the vector graphic, or <code>null</code> if not found.
 	 */
 	public File getClipart(String fileName) {
-		log.debug("grabbing Clippart "+fileName);
-		if(fileName == null)  {
-			log.debug("filename is null!");
-			return null;
-		}
+		if (fileName == null ) return null;
 		Matcher m = PATTERN_CLIPART.matcher(fileName);
 		if (!m.matches())
 			return null;
 
 		return resources.getClip(m.group(1));
+	}
+
+	public File getClipartViaDesignElementId(String designElementId) {
+		if (designElementId == null ) return null;
+		Fading config = resources.getDecoration(designElementId);
+		File clipart = null;
+		if(config != null) {
+			clipart = resources.getClip(config.getClipart().getFile().split("\\.")[0]);
+		}
+		return clipart;
 	}
 
 	/**
@@ -223,12 +229,22 @@ public final class PageRenderContext {
 		return new McfFotoFrame(clipart, fading, config);
 	}
 
-	public File getClipartDesignedElementId(String designElementId) {
-	    return resources.getClipDesignedID(designElementId);
-	}
+	public McfFotoFrame getFotoFrameViaDesignElementID(String passepartoutDesignElementId) {
 
-
-	public String getFadingFromDesignedElementID(String passePartoutDesignElementId) {
-		return resources.passePartoutDesignElementId(passePartoutDesignElementId);
+		//String fotoframeName = m.group(1);
+		Fading config = resources.getDecoration(passepartoutDesignElementId);
+		// fix getting fadding and clippart
+		File fading = resources.getClip(config.getFile().split("\\.")[0]);
+		File clipart = null;
+		if(config.getClipart()!=null) {
+			clipart = resources.getClip(config.getClipart().getFile().split("\\.")[0]);
+		}
+		if (config == null) {
+			log.warn("Could not get required resources for fotoframe: via passepartoutDesignElementId= " + passepartoutDesignElementId);
+			return null;
+		}
+		return new McfFotoFrame(clipart, fading, config);
 	}
+  
+  
 }
