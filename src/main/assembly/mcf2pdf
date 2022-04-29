@@ -15,6 +15,7 @@ MCF_TEMP_DIR=~/.mcf
 MCF2PDF_JAVA_OPTS="-Xms64M -Xmx4G"
 
 
+
 # check if this file has to be adjusted!
 if [ "$MCF_INSTALL_DIR" == "" ]
 then

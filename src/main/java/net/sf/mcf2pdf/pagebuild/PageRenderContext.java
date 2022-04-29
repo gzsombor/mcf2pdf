@@ -245,6 +245,6 @@ public final class PageRenderContext {
 		}
 		return new McfFotoFrame(clipart, fading, config);
 	}
-
-
+  
+  
 }

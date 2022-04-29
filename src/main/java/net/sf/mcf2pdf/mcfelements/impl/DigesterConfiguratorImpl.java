@@ -186,9 +186,11 @@ public class DigesterConfiguratorImpl implements DigesterConfigurator {
 
 		// new file with cliparts 7.1.5
 
+
 		digester.addObjectCreate("decorations/decoration/clipart", Clipart.class);
 		digester.addSetProperties("decorations/decoration/clipart");
 		digester.addSetNext("decorations/decoration/clipart", "setClipart");
+
 
 		// Decorations clipart
 

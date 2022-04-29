@@ -196,7 +196,6 @@ public class PageText implements PageDrawable {
 					//par = it.next();
 				}
 			//}
-
 		}
 
 	}

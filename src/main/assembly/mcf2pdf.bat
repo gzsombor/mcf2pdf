@@ -23,6 +23,7 @@ SET MCF2PDF_JAVA_OPTS=-Xms64M -Xmx4G
 
 
 
+
 REM check if this file has to be adjusted!
 if "%MCF_INSTALL_DIR%" == "" GOTO echo_adjust 
 if "%MCF_TEMP_DIR%" == "" GOTO echo_adjust

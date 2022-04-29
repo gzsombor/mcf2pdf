@@ -29,7 +29,7 @@ public class McfImageImpl extends AbstractMcfAreaContentImpl implements McfImage
 	private String passepartoutDesignElementId;
 
 	private McfCutout cutout;
-	
+
 	@Override
 	public ContentType getContentType() {
 		return ContentType.IMAGE;

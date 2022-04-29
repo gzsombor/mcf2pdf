@@ -48,6 +48,7 @@ public class McfResourceScanner {
 
 	private Map<String, Fading> foundDecorations = new HashMap<String, Fading>();
 
+	private Map<String, File> foundedDesignelementIDs = new HashMap<String, File>();
 	private File foundBinding;
 
 	public McfResourceScanner(List<File> scanDirs) {
@@ -58,6 +59,7 @@ public class McfResourceScanner {
 		for (File f : scanDirs) {
 			scanDirectory(f);
 		}
+		log.debug("finished scanning ");
 	}
 
 	private void scanDirectory(File dir) throws IOException {
@@ -65,10 +67,12 @@ public class McfResourceScanner {
 			return;
 
 		for (File f : dir.listFiles()) {
+			log.debug("checking "+f.getAbsolutePath());
 			if (f.isDirectory())
 				scanDirectory(f);
 			else {
 				String nm = f.getName().toLowerCase(Locale.US);
+				log.debug("nm="+nm);
 				String path = f.getAbsolutePath();
 				log.debug("nm="+nm);
 				log.debug("path="+path);
@@ -120,6 +124,7 @@ public class McfResourceScanner {
 					foundBinding = f;
 				}
 				else if (nm.matches(".+\\.xml") && path.contains("decorations")) {
+					log.debug("in last if checking "+f.getName());
 					String id = f.getName().substring(0, nm.lastIndexOf("."));
 					List<Decoration> spec = loadDecoration(f);
 					if (spec.size() == 1) {
@@ -178,10 +183,22 @@ public class McfResourceScanner {
 						}
 					} else {
 						log.warn("Failed to load decorations from: " + path);
+						//if(id.equalsIgnoreCase("cliparts_default") ||
+						//		id.equalsIgnoreCase("masks_default")) {
+							for (Decoration d : spec
+							) {
+								if(d.getClipart() != null)
+								 	foundedDesignelementIDs.put(d.getClipart().getDesignElementId(), new File(dir.getAbsolutePath() + File.separatorChar +d.getClipart().getFile().replace("svg","clp")));
+                                if(d.getFading() != null)
+                                	foundedDesignelementIDs.put(d.getFading().getDesignElementId(),new File(dir.getAbsolutePath()+File.separatorChar+d.getFading().getFile()));
+							}
+							log.debug("founded " + spec.size() + " design elements ID's");
+						//}
 					}
 				}
 			}
 		}
+		log.debug("finished scanning ");
 	}
 
 	private static Font loadFont(File f) throws IOException {
@@ -210,9 +227,11 @@ public class McfResourceScanner {
 	
 	private static List<Decoration> loadDecoration(File f) {
 		Digester digester = new Digester();
+		log.debug("in load decorations with " + f.getAbsolutePath());
 		DigesterConfiguratorImpl configurator = new DigesterConfiguratorImpl();
 		try {
 			configurator.configureDigester(digester, f);
+			log.debug("trying parsing file " +f.getName());
 			return digester.parse(f);
 		} catch (Exception e) {
 			log.warn("Failed to load decorations", e);
@@ -243,5 +262,13 @@ public class McfResourceScanner {
 
 	public Fading getDecoration(String id) {
 		return foundDecorations.get(id);
+	}
+
+	public File getClipDesignedID(String designElementId) {
+		return foundedDesignelementIDs.get(designElementId);
+	}
+
+	public String passePartoutDesignElementId(String passePartoutDesignElementId) {
+		return foundedDesignelementIDs.get(passePartoutDesignElementId).getName();
 	}
 }

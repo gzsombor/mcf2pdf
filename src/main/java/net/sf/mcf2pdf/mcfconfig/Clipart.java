@@ -7,6 +7,7 @@ public class Clipart {
 
 
 	private double ratio;
+	private String designElementId;
 	
 	public String getFile() {
 		return file;
