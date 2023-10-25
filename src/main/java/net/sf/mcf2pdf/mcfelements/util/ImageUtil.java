@@ -24,7 +24,8 @@ import org.apache.batik.bridge.BridgeContext;
 import org.apache.batik.bridge.GVTBuilder;
 import org.apache.batik.bridge.UserAgentAdapter;
 import org.apache.batik.bridge.ViewBox;
-import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
+//import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
+import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
 import org.apache.batik.ext.awt.RenderingHintsKeyExt;
 import org.apache.batik.gvt.GraphicsNode;
 import org.apache.batik.svggen.SVGGraphics2D;
@@ -107,6 +108,7 @@ public final class ImageUtil {
 
 	private static int getImageRotation(File imageFile) throws IOException {
 		try {
+			if(imageFile.getName().endsWith("svg")) return 0;
 			Metadata md = ImageMetadataReader.readMetadata(imageFile);
 
 			ExifDirectoryBase ed = md.getFirstDirectoryOfType(ExifDirectoryBase.class);

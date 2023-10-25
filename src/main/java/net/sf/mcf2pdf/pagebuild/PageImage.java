@@ -185,6 +185,13 @@ public class PageImage implements PageDrawable {
 			sw = sw * fotoArea.getWidth();
 			sh = sh * fotoArea.getHeight();
 		}
+		// hack for calculating this 4 s'values for SVG
+		if(baseImage.getName().toUpperCase().contains(".SVG")) {
+			leftOffset = (int)Math.round(leftOffset * 1.333);
+			topOffset = (int)Math.round(topOffset *1.3333);
+			sw = sw *1.3333;
+			sh = sh *1.3333;
+		}// end hack
 
 		// draw main image
 		g2d.drawImage(baseImg, 

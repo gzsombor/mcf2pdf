@@ -98,7 +98,7 @@ public class XslFoDocumentBuilder {
 		
 		// create block container
 		Element bc = new Element("block-container",ns);
-		bc.setAttribute("background-image", imgSource);
+		bc.setAttribute("background-image", "file:///"+imgSource);
 		bc.setAttribute("width", "100%");
 		bc.setAttribute("height", "100%");
 		bc.addContent(new Element("block", ns));

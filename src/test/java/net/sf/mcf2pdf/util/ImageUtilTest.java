@@ -39,5 +39,11 @@ public class ImageUtilTest {
 		Assert.assertNotNull(res);
 	}
 
+	//@Ignore("Will be working if changed to imageio by twelvemonkeys")
+	@Test
+	public void testSVGShouldwork() throws Exception {
+		BufferedImage res = ImageUtil.readImage(new File("./src/test/resources/test.svg"));
+		Assert.assertNotNull(res);
+	}
 
 }
