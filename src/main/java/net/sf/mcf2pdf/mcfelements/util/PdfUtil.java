@@ -7,10 +7,7 @@
  *******************************************************************************/
 package net.sf.mcf2pdf.mcfelements.util;
 
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -51,11 +48,13 @@ public class PdfUtil {
 	public static void convertFO2PDF(InputStream fo, OutputStream pdf, int dpi) throws IOException,
 			FOPException, TransformerException {
 
-		FopFactory fopFactory = FopFactory.newInstance();
+		//FopFactory fopFactory = FopFactory.newInstance();
+		FopFactory		fopFactory = FopFactory.newInstance(new File(".").toURI());
 
 		FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
 		// configure foUserAgent as desired
 		foUserAgent.setTargetResolution(dpi);
+
 
 		// Setup output stream. Note: Using BufferedOutputStream
 		// for performance reasons (helpful with FileOutputStreams).
