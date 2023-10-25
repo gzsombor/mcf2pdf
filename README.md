@@ -3,7 +3,8 @@
 Latest Release: Version **0.7.3**
 
 
-Author: Florian Albrecht
+Initial Author: Florian Albrecht
+Current developer : rbodziony
 
 Downloads can be found [here](https://github.com/rbodziony/mcf2pdf/releases). Please read the **installation instructions** below carefully, **otherwise the software will definitely not work for you.** You have been warned.
 
