@@ -67,7 +67,12 @@ public class PageClipart implements PageDrawable {
 		int heightPixel = context.toPixel(clipart.getArea().getHeight() / 10.0f);
 
 		drawOffsetPixels.x = drawOffsetPixels.y = 0;
-		return ImageUtil.loadClpFile(f, widthPixel, heightPixel);
+		BufferedImage loadedClip = ImageUtil.loadClpFile(f, widthPixel, heightPixel);
+		// apply rotation
+		if (clipart.getArea().getRotation() != 0) {
+			loadedClip = ImageUtil.rotateImage(loadedClip, (float)Math.toRadians(clipart.getArea().getRotation()), drawOffsetPixels);
+		}
+		return loadedClip;
 	}
 
 	@Override
