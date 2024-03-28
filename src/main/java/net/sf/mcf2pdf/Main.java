@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
+import java.lang.System.Logger.Level;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -20,10 +20,8 @@ import org.apache.commons.cli.PosixParser;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
+import io.jstach.rainbowgum.RainbowGum;
 import net.sf.mcf2pdf.mcfelements.util.PdfUtil;
 
 
@@ -187,16 +185,15 @@ public class Main {
 			}
 		}
 
-		// configure logging, if no system property is present
-		if (System.getProperty("log4j.configuration") == null) {
-			PropertyConfigurator.configure(Main.class.getClassLoader().getResource("log4j.properties"));
-
-			Logger.getRootLogger().setLevel(Level.INFO);
-			if (cl.hasOption("q"))
-				Logger.getRootLogger().setLevel(Level.ERROR);
-			if (cl.hasOption("d"))
-				Logger.getRootLogger().setLevel(Level.DEBUG);
-		}
+		RainbowGum.builder().route(r -> {
+		    if (cl.hasOption("q")) {
+		        r.level(Level.ERROR);
+		    } else if (cl.hasOption("d")) {
+		        r.level(Level.DEBUG);
+		    } else {
+		        r.level(Level.INFO);
+		    }
+		}).set();
 
 		// start conversion to XSL-FO
 		// if -x is specified, this is the only thing we do
