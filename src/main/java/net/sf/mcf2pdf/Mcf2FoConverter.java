@@ -15,6 +15,18 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.filefilter.FileFilterUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.jdom.output.XMLOutputter;
+import org.xml.sax.SAXException;
+
+import com.sun.jna.Native;
+import com.sun.jna.platform.win32.Shell32;
+import com.sun.jna.platform.win32.ShlObj;
+import com.sun.jna.platform.win32.WinDef;
+
 import net.sf.mcf2pdf.mcfelements.FotobookBuilder;
 import net.sf.mcf2pdf.mcfelements.McfArea;
 import net.sf.mcf2pdf.mcfelements.McfBackground;
@@ -38,18 +50,6 @@ import net.sf.mcf2pdf.pagebuild.PageImageBackground;
 import net.sf.mcf2pdf.pagebuild.PageNum;
 import net.sf.mcf2pdf.pagebuild.PageRenderContext;
 import net.sf.mcf2pdf.pagebuild.PageText;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.filefilter.FileFilterUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.jdom.output.XMLOutputter;
-import org.xml.sax.SAXException;
-
-import com.sun.jna.Native;
-import com.sun.jna.platform.win32.Shell32;
-import com.sun.jna.platform.win32.ShlObj;
-import com.sun.jna.platform.win32.WinDef;
 
 /**
  * The core class to convert MCF files to XSL-FO data (which then can be used
