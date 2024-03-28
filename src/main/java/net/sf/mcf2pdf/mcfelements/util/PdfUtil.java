@@ -17,8 +17,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
@@ -26,13 +24,15 @@ import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.FormattingResults;
 import org.apache.fop.apps.MimeConstants;
 import org.apache.fop.apps.PageSequenceResults;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class for working with PDFs.
  */
 public class PdfUtil {
 
-	private final static Log log = LogFactory.getLog(PdfUtil.class);
+	private final static Logger log = LoggerFactory.getLogger(PdfUtil.class);
 
 	/**
 	 * Converts an FO file to a PDF file using Apache FOP.

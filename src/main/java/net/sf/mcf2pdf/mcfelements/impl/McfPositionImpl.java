@@ -4,11 +4,11 @@
 package net.sf.mcf2pdf.mcfelements.impl;
 
 import net.sf.mcf2pdf.mcfelements.McfPosition;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class McfPositionImpl extends AbstractMcfAreaContentImpl implements McfPosition {
-	private final static Log log = LogFactory.getLog(McfPositionImpl.class);
+	private final static Logger log = LoggerFactory.getLogger(McfPositionImpl.class);
 
 	private float left;
 

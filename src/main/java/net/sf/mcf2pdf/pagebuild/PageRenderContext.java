@@ -8,8 +8,8 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.sf.mcf2pdf.mcfconfig.Fading;
 import net.sf.mcf2pdf.mcfelements.util.ImageUtil;
@@ -26,7 +26,7 @@ import net.sf.mcf2pdf.mcfglobals.McfResourceScanner;
  */
 public final class PageRenderContext {
 
-	private final static Log log = LogFactory.getLog(PageRenderContext.class);
+	private final static Logger log = LoggerFactory.getLogger(PageRenderContext.class);
 	
 	private double sx;
 
@@ -49,7 +49,7 @@ public final class PageRenderContext {
 	 *
 	 * @return A log object which can be used to log rendering related messages.
 	 */
-	public Log getLog() {
+	public Logger getLog() {
 		return log;
 	}
 	

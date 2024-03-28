@@ -19,14 +19,14 @@ import java.util.List;
 import java.util.Vector;
 import java.util.regex.Pattern;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.sf.mcf2pdf.mcfelements.McfText;
 import net.sf.mcf2pdf.mcfelements.util.ImageUtil;
@@ -38,7 +38,7 @@ import net.sf.mcf2pdf.pagebuild.FormattedTextParagraph.Alignment;
  */
 public class PageText implements PageDrawable {
 	
-	private final static Log log = LogFactory.getLog(PageText.class);
+	private final static Logger log = LoggerFactory.getLogger(PageText.class);
 
 	private static final Pattern PATTERN_HTML_TEXT_PARA = Pattern.compile("<p\\s([^>]*)>((.(?!</p>))*.)</p>");
 	private static final Pattern PATTERN_PARA_ALIGN = Pattern.compile("(?:\\s|^)align=\"([^\"]+)\"");

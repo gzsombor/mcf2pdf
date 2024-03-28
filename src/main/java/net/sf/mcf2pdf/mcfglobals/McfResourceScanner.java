@@ -17,8 +17,8 @@ import java.util.Map;
 
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.sf.mcf2pdf.mcfconfig.Decoration;
 import net.sf.mcf2pdf.mcfconfig.Fading;
@@ -33,7 +33,7 @@ import net.sf.mcf2pdf.mcfelements.impl.DigesterConfiguratorImpl;
  */
 public class McfResourceScanner {
 	
-	private final static Log log = LogFactory.getLog(McfResourceScanner.class);
+	private final static Logger log = LoggerFactory.getLogger(McfResourceScanner.class);
 
 	private List<File> scanDirs = new ArrayList<File>();
 

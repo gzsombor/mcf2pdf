@@ -17,9 +17,9 @@ import java.util.Vector;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jdom.output.XMLOutputter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import com.sun.jna.Native;
@@ -57,7 +57,7 @@ import net.sf.mcf2pdf.pagebuild.PageText;
  */
 public class Mcf2FoConverter {
 
-	private final static Log log = LogFactory.getLog(Mcf2FoConverter.class);
+	private final static Logger log = LoggerFactory.getLogger(Mcf2FoConverter.class);
 
 	private Set<McfProductCatalogue> productCatalogues = new HashSet<McfProductCatalogue>();
 

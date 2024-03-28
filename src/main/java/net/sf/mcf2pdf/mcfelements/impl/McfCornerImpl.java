@@ -1,13 +1,13 @@
 package net.sf.mcf2pdf.mcfelements.impl;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.sf.mcf2pdf.mcfelements.McfCorner;
 
 public class McfCornerImpl implements McfCorner {
 
-	private final static Log log = LogFactory.getLog(McfCornerImpl.class);
+	private final static Logger log = LoggerFactory.getLogger(McfCornerImpl.class);
 	int length = 0;
 	private String shape = null;
 	private String  where = null;

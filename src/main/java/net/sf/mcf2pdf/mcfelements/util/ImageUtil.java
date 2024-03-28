@@ -31,8 +31,8 @@ import org.apache.batik.ext.awt.RenderingHintsKeyExt;
 import org.apache.batik.gvt.GraphicsNode;
 import org.apache.batik.util.XMLResourceDescriptor;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Attr;
 import org.w3c.dom.svg.SVGDocument;
 import org.w3c.dom.svg.SVGPreserveAspectRatio;
@@ -47,7 +47,7 @@ import com.drew.metadata.exif.ExifDirectoryBase;
  */
 public final class ImageUtil {
 
-    private final static Log log = LogFactory.getLog(ImageUtil.class);
+    private final static Logger log = LoggerFactory.getLogger(ImageUtil.class);
 
     /*
      * FIXME this uses CEWE Fotobook for MY personal pictures when they do not

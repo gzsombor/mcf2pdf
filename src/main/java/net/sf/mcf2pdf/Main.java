@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.System.Logger.Level;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -18,8 +19,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.commons.io.output.ByteArrayOutputStream;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.LoggerFactory;
 
 import io.jstach.rainbowgum.RainbowGum;
 import net.sf.mcf2pdf.mcfelements.util.PdfUtil;
@@ -203,7 +203,7 @@ public class Main {
 		else
 			xslFoOut = new ByteArrayOutputStream();
 
-		Log log = LogFactory.getLog(Main.class);
+		var log = LoggerFactory.getLogger(Main.class);
 
 		try {
 			new Mcf2FoConverter(installDir, tempDir, tempImages,hpsDirPath).convert(
