@@ -11,6 +11,7 @@
 		<github.global.server>github</github.global.server>
 		<batik.version>1.16</batik.version>
 		<fop.version>2.9</fop.version>
+		<imageio.version>3.10.1</imageio.version>
 	</properties>
 
 	<scm>
@@ -94,11 +95,6 @@
 			<artifactId>metadata-extractor</artifactId>
 			<version>2.18.0</version>
 		</dependency>
-		<dependency>
-			<groupId>ar.com.hjg</groupId>
-			<artifactId>pngj</artifactId>
-			<version>2.1.0</version>
-		</dependency>
 
 		<dependency>
 			<groupId>net.java.dev.jna</groupId>
@@ -122,18 +118,23 @@
 		<dependency>
 			<groupId>com.twelvemonkeys.imageio</groupId>
 			<artifactId>imageio-batik</artifactId>
-			<version>3.9.4</version>
+			<version>${imageio.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.twelvemonkeys.imageio</groupId>
 			<artifactId>imageio-core</artifactId>
-			<version>3.9.4</version>
+			<version>${imageio.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.twelvemonkeys.imageio</groupId>
 			<artifactId>imageio-tiff</artifactId>
-			<version>3.9.4</version>
+			<version>${imageio.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.twelvemonkeys.imageio</groupId>
+			<artifactId>imageio-webp</artifactId>
+			<version>${imageio.version}</version>
 		</dependency>
 
 		<dependency>
